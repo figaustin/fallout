@@ -1,0 +1,7 @@
+name: Fallout
+version: '${project.version}'
+main: com.etsuni.fallout.Fallout
+api-version: 1.16
+commands:
+  fallout:
+    description: Fallout base command
