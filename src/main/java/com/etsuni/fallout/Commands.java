@@ -18,7 +18,7 @@ public class Commands implements CommandExecutor {
         if(sender instanceof Player) {
             if(command.getName().equalsIgnoreCase("fallout")) {
                 if(args.length > 0) {
-                    if(args[0].equalsIgnoreCase("create")) {
+                    if(args[0].equalsIgnoreCase("create") && sender.hasPermission("fallout.create")) {
 
                         if(args.length > 1) {
                             String name = args[1];
@@ -48,7 +48,7 @@ public class Commands implements CommandExecutor {
                         }
 
                     }
-                     else if(args[0].equalsIgnoreCase("reset")) {
+                     else if(args[0].equalsIgnoreCase("reset") && sender.hasPermission("fallout.reset")) {
 
                          if(args.length > 1) {
                              String name = args[1];
@@ -65,7 +65,7 @@ public class Commands implements CommandExecutor {
                              return false;
                          }
                     }
-                     else if(args[0].equalsIgnoreCase("start")) {
+                     else if(args[0].equalsIgnoreCase("start") && sender.hasPermission("fallout.start")) {
 
                          if(args.length > 1) {
                              String name = args[1];
@@ -82,7 +82,7 @@ public class Commands implements CommandExecutor {
                              return false;
                          }
                     }
-                     else if(args[0].equalsIgnoreCase("stop")) {
+                     else if(args[0].equalsIgnoreCase("stop")  && sender.hasPermission("fallout.stop")) {
 
                          if(args.length > 1) {
                              String name = args[1];
@@ -99,7 +99,7 @@ public class Commands implements CommandExecutor {
                              return false;
                          }
                      }
-                     else if(args[0].equalsIgnoreCase("list")) {
+                     else if(args[0].equalsIgnoreCase("list") && sender.hasPermission("fallout.list")) {
                         Configuration config = plugin.getArenasConfig();
                         Set<String> arenas = config.getConfigurationSection("arenas").getKeys(false);
                         sender.sendMessage(ChatColor.GOLD + "List of Fallout Arenas: ");
@@ -109,7 +109,7 @@ public class Commands implements CommandExecutor {
                                             + config.getString("arenas." +arena + ".block_type"));
                         }
                      }
-                     else if (args[0].equalsIgnoreCase("delete")) {
+                     else if (args[0].equalsIgnoreCase("delete")  && sender.hasPermission("fallout.delete")) {
 
                          if(args.length > 1) {
                              String name = args[1];

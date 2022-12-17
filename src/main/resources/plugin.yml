@@ -5,8 +5,27 @@ api-version: 1.16
 commands:
   fallout:
     description: Fallout base command
-    permission: fallout.*
-    permission-message: "You don't have permissions to use this command."
 permissions:
   fallout.*:
     description: Allows a player to use all fallout commands.
+    children:
+      fallout.create: true
+      fallout.reset: true
+      fallout.start: true
+      fallout.stop: true
+      fallout.list: true
+      fallout.delete: true
+  fallout.create:
+    description: Allows player to create fallout arenas
+  fallout.reset:
+    description: Allows player to reset arenas
+  fallout.start:
+    description: Allows player to start fallout games
+  fallout.stop:
+    description: Allows player to stop any on-going fallout games
+  fallout.list:
+    description: Allows player to see the list of arenas
+  fallout.delete:
+    description: Allows player to delete fallout arenas
+
+depend: [WorldEdit]
