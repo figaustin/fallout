@@ -70,12 +70,24 @@ public class Commands implements CommandExecutor {
                          if(args.length > 1) {
                              String name = args[1];
 
-                             Arena arena = new Arena();
-                             if (!arena.startArena(name)) {
-                                 sender.sendMessage(ChatColor.RED + "Can not find an arena by that name or that arena is already in play!");
-                                 return false;
+                             if(args.length > 2) {
+                                 long decayTime;
+                                 try {
+                                     decayTime = Long.parseLong(args[2]);
+                                 } catch (NumberFormatException e) {
+                                     sender.sendMessage("Please enter a valid number for decay time!");
+                                     return false;
+                                 }
+                                 Arena arena = new Arena();
+                                 if (!arena.startArena(name, decayTime)) {
+                                     sender.sendMessage(ChatColor.RED + "Can not find an arena by that name or that arena is already in play!");
+                                     return false;
+                                }else {
+                                     sender.sendMessage(ChatColor.GREEN + "Started fallout game!");
+                                 }
                              } else {
-                                 sender.sendMessage(ChatColor.GREEN + "Started fallout game!");
+                                 sender.sendMessage(ChatColor.RED + "Please enter a decay time!");
+                                 return false;
                              }
                          }else {
                              sender.sendMessage(ChatColor.RED + "Please provide an arena.");

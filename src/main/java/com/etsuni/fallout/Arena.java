@@ -3,12 +3,9 @@ package com.etsuni.fallout;
 import com.sk89q.worldedit.*;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.function.pattern.RandomPattern;
-import com.sk89q.worldedit.function.pattern.RandomStatePattern;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
-import com.sk89q.worldedit.regions.RegionSelector;
-import com.sk89q.worldedit.regions.Regions;
 import com.sk89q.worldedit.session.SessionManager;
 import com.sk89q.worldedit.util.formatting.text.TextComponent;
 import com.sk89q.worldedit.world.World;
@@ -17,16 +14,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import static com.etsuni.fallout.Fallout.plugin;
@@ -43,7 +37,7 @@ public class Arena {
         World selectionWorld = localSession.getSelectionWorld();
         Configuration config = plugin.getArenasConfig();
 
-        if(config.getConfigurationSection("arenas").getKeys(false).contains(arenaName)) {
+        if(config.getConfigurationSection("arenas") != null && config.getConfigurationSection("arenas").getKeys(false).contains(arenaName)) {
             return false;
         }
 
@@ -74,7 +68,7 @@ public class Arena {
     public Boolean resetArena(String name) {
         Configuration config = plugin.getArenasConfig();
 
-        if(!config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
@@ -103,12 +97,12 @@ public class Arena {
         return true;
     }
 
-    public Boolean startArena(String name) {
+    public Boolean startArena(String name, Long decayTime) {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         Configuration config = plugin.getArenasConfig();
         org.bukkit.World bukkitWorld = Bukkit.getWorld(config.getString("arenas." + name + ".world"));
 
-        if(!config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
@@ -131,7 +125,7 @@ public class Arena {
                 }
 
                 if(count == 0) {
-                    startFallout(name);
+                    startFallout(name, decayTime);
                     scheduler.cancelTask(countdown);
                 }
                 count--;
@@ -142,7 +136,7 @@ public class Arena {
         return true;
     }
 
-    public Boolean startFallout(String name) {
+    public Boolean startFallout(String name, Long decayTime) {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         Configuration config = plugin.getArenasConfig();
 
@@ -181,7 +175,7 @@ public class Arena {
                     }
                 }
             }
-        },0, config.getInt("settings.decay_time"));
+        },0, decayTime);
 
         FalloutGames.getInstance().getGames().put(name, id);
         return true;
@@ -191,7 +185,7 @@ public class Arena {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         Configuration config = plugin.getArenasConfig();
 
-        if(!config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
@@ -207,7 +201,7 @@ public class Arena {
     public Boolean deleteArena(String name) {
         Configuration config = plugin.getArenasConfig();
 
-        if(!config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
