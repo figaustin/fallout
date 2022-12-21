@@ -37,7 +37,7 @@ public class Arena {
         World selectionWorld = localSession.getSelectionWorld();
         Configuration config = plugin.getArenasConfig();
 
-        if(config.getConfigurationSection("arenas") != null && config.getConfigurationSection("arenas").getKeys(false).contains(arenaName)) {
+        if(config.getConfigurationSection("arenas") == null || config.getConfigurationSection("arenas").getKeys(false).contains(arenaName)) {
             return false;
         }
 
@@ -68,7 +68,7 @@ public class Arena {
     public Boolean resetArena(String name) {
         Configuration config = plugin.getArenasConfig();
 
-        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") == null || !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
@@ -102,7 +102,7 @@ public class Arena {
         Configuration config = plugin.getArenasConfig();
         org.bukkit.World bukkitWorld = Bukkit.getWorld(config.getString("arenas." + name + ".world"));
 
-        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") == null || !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
@@ -185,7 +185,7 @@ public class Arena {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         Configuration config = plugin.getArenasConfig();
 
-        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") == null || !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
@@ -201,7 +201,7 @@ public class Arena {
     public Boolean deleteArena(String name) {
         Configuration config = plugin.getArenasConfig();
 
-        if(config.getConfigurationSection("arenas") != null && !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") != null || !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 
