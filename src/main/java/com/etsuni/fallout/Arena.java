@@ -21,6 +21,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Random;
 
 import static com.etsuni.fallout.Fallout.plugin;
@@ -37,7 +38,8 @@ public class Arena {
         World selectionWorld = localSession.getSelectionWorld();
         Configuration config = plugin.getArenasConfig();
 
-        if(config.getConfigurationSection("arenas") == null || config.getConfigurationSection("arenas").getKeys(false).contains(arenaName)) {
+        if(config.getConfigurationSection("arenas") != null &&
+        config.getConfigurationSection("arenas").getKeys(false).contains(arenaName)) {
             return false;
         }
 
@@ -100,11 +102,13 @@ public class Arena {
     public Boolean startArena(String name, Long decayTime) {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         Configuration config = plugin.getArenasConfig();
-        org.bukkit.World bukkitWorld = Bukkit.getWorld(config.getString("arenas." + name + ".world"));
+
 
         if(config.getConfigurationSection("arenas") == null || !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
+
+        org.bukkit.World bukkitWorld = Bukkit.getWorld(Objects.requireNonNull(config.getString("arenas." + name + ".world")));
 
         if(FalloutGames.getInstance().getGames().containsKey(name)) {
             return false;
@@ -136,17 +140,9 @@ public class Arena {
         return true;
     }
 
-    public Boolean startFallout(String name, Long decayTime) {
+    public void startFallout(String name, Long decayTime) {
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
         Configuration config = plugin.getArenasConfig();
-
-        if(!config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
-            return false;
-        }
-
-        if(FalloutGames.getInstance().getGames().containsKey(name)) {
-           return false;
-        }
 
         Vector maxLocation = config.getVector("arenas." + name + ".region.max");
         Vector minLocation = config.getVector("arenas." + name + ".region.min");
@@ -178,7 +174,6 @@ public class Arena {
         },0, decayTime);
 
         FalloutGames.getInstance().getGames().put(name, id);
-        return true;
     }
 
     public Boolean stopArena(String name) {
@@ -201,7 +196,8 @@ public class Arena {
     public Boolean deleteArena(String name) {
         Configuration config = plugin.getArenasConfig();
 
-        if(config.getConfigurationSection("arenas") != null || !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
+        if(config.getConfigurationSection("arenas") == null ||
+        !config.getConfigurationSection("arenas").getKeys(false).contains(name)) {
             return false;
         }
 

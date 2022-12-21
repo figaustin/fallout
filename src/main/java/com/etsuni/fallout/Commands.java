@@ -75,7 +75,7 @@ public class Commands implements CommandExecutor {
                                  try {
                                      decayTime = Long.parseLong(args[2]);
                                  } catch (NumberFormatException e) {
-                                     sender.sendMessage("Please enter a valid number for decay time!");
+                                     sender.sendMessage(ChatColor.RED + "Please enter a valid number for decay time!");
                                      return false;
                                  }
                                  Arena arena = new Arena();
@@ -128,7 +128,7 @@ public class Commands implements CommandExecutor {
 
                              Arena arena = new Arena();
                              if(!arena.deleteArena(name)) {
-                                 sender.sendMessage(ChatColor.RED + "Can not find an arena by that name!");
+                                 sender.sendMessage(ChatColor.RED + "Can not find an arena by that name or fallout game in progress!");
                                  return false;
                              } else {
                                  sender.sendMessage(ChatColor.GREEN + "Successfully deleted " + arena + "!");
